@@ -1,4 +1,4 @@
-ifneq ($(findstring $(BOARD), 3568 imx6q-sabrelite zynq7000-zc702), )
+ifneq ($(findstring $(BOARD), 3588 3568 imx6q-sabrelite zynq7000-zc702), )
 SRC_DIR := arm
 endif
 ifneq ($(findstring $(BOARD), jh7110), )

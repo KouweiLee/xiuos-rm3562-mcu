@@ -48,9 +48,9 @@ bool module_phymem_init()
 #else
     uintptr_t kern_freemem_start = V2P_LINK(kernel_data_end);
 #endif
-    uintptr_t kern_freemem_end = PHY_USER_FREEMEM_BASE;
+    uintptr_t kern_freemem_end = PHY_KERN_STOP;
     uintptr_t user_freemem_start = PHY_USER_FREEMEM_BASE;
-    uintptr_t user_freemem_end = PHY_MEM_STOP;
+    uintptr_t user_freemem_end = PHY_USER_FREEMEM_TOP;
     user_phy_freemem_buddy.pages = NULL;
     KBuddySysInit(&kern_virtmem_buddy, kern_freemem_start, kern_freemem_end);
     KBuddyInit(&user_phy_freemem_buddy, user_freemem_start, user_freemem_end);

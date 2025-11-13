@@ -63,9 +63,15 @@ uint64_t boot_l2pgdir[NUM_LEVEL2_PDE] __attribute__((aligned(0x1000))) = { 0 };
 
 uint64_t boot_dev_l3pgdir[NUM_LEVEL3_PDE] __attribute__((aligned(0x1000))) = { 0 };
 uint64_t boot_kern_l3pgdir[NUM_LEVEL3_PDE] __attribute__((aligned(0x1000))) = { 0 };
+uint64_t boot_kern_l3pgdir2[NUM_LEVEL3_PDE] __attribute__((aligned(0x1000))) = { 0 };
+uint64_t boot_kern_l3pgdir3[NUM_LEVEL3_PDE] __attribute__((aligned(0x1000))) = { 0 };
+uint64_t boot_kern_l3pgdir4[NUM_LEVEL3_PDE] __attribute__((aligned(0x1000))) = { 0 };
 
 uint64_t boot_dev_l4pgdirs[NUM_LEVEL3_PDE][NUM_LEVEL4_PTE] __attribute__((aligned(0x1000))) = { 0 };
 uint64_t boot_kern_l4pgdirs[NUM_LEVEL3_PDE][NUM_LEVEL4_PTE] __attribute__((aligned(0x1000))) = { 0 };
+uint64_t boot_kern_l4pgdirs2[NUM_LEVEL3_PDE][NUM_LEVEL4_PTE] __attribute__((aligned(0x1000))) = { 0 };
+uint64_t boot_kern_l4pgdirs3[NUM_LEVEL3_PDE][NUM_LEVEL4_PTE] __attribute__((aligned(0x1000))) = { 0 };
+uint64_t boot_kern_l4pgdirs4[NUM_LEVEL3_PDE][NUM_LEVEL4_PTE] __attribute__((aligned(0x1000))) = { 0 };
 
 static void build_boot_pgdir()
 {
@@ -96,13 +102,51 @@ static void build_boot_pgdir()
         // identical mem
         boot_l2pgdir[(PHY_MEM_BASE >> LEVEL2_PDE_SHIFT) & IDX_MASK] = (uint64_t)boot_kern_l3pgdir | L2_TYPE_TAB | L2_PTE_VALID;
         boot_l2pgdir[(P2V_WO(PHY_MEM_BASE) >> LEVEL2_PDE_SHIFT) & IDX_MASK] = (uint64_t)boot_kern_l3pgdir | L2_TYPE_TAB | L2_PTE_VALID;
-
+        boot_l2pgdir[(P2V_WO(0x40000000) >> LEVEL2_PDE_SHIFT) & IDX_MASK] = (uint64_t)boot_kern_l3pgdir2 | L2_TYPE_TAB | L2_PTE_VALID;
+        boot_l2pgdir[(P2V_WO(0x80000000) >> LEVEL2_PDE_SHIFT) & IDX_MASK] = (uint64_t)boot_kern_l3pgdir3 | L2_TYPE_TAB | L2_PTE_VALID;
+        boot_l2pgdir[(P2V_WO(0xc0000000) >> LEVEL2_PDE_SHIFT) & IDX_MASK] = (uint64_t)boot_kern_l3pgdir4 | L2_TYPE_TAB | L2_PTE_VALID;
+        // Create a page table from 0x0 to 0x40000000
         cur_mem_paddr = ALIGNDOWN((uint64_t)0x00000000ULL, PAGE_SIZE);
         for (size_t i = 0; i < NUM_LEVEL3_PDE; i++) {
             boot_kern_l3pgdir[i] = (uint64_t)boot_kern_l4pgdirs[i] | L3_TYPE_TAB | L3_PTE_VALID;
 
             for (size_t j = 0; j < NUM_LEVEL4_PTE; j++) {
                 boot_kern_l4pgdirs[i][j] = cur_mem_paddr | 0x713;
+
+                cur_mem_paddr += PAGE_SIZE;
+            }
+        }
+        // Create a page table from 0x40000000 to 0x80000000
+        cur_mem_paddr = ALIGNDOWN((uint64_t)0x40000000ULL, PAGE_SIZE);
+        for (size_t i = 0; i < NUM_LEVEL3_PDE; i++) {
+            boot_kern_l3pgdir2[i] = (uint64_t)boot_kern_l4pgdirs2[i] | L3_TYPE_TAB | L3_PTE_VALID;
+
+            for (size_t j = 0; j < NUM_LEVEL4_PTE; j++) {
+                boot_kern_l4pgdirs2[i][j] = cur_mem_paddr | 0x713;
+
+                cur_mem_paddr += PAGE_SIZE;
+            }
+        }
+        // Create a page table from 0x80000000 to 0xc0000000
+        cur_mem_paddr = ALIGNDOWN((uint64_t)0x80000000ULL, PAGE_SIZE);
+        for (size_t i = 0; i < NUM_LEVEL3_PDE; i++) {
+            boot_kern_l3pgdir3[i] = (uint64_t)boot_kern_l4pgdirs3[i] | L3_TYPE_TAB | L3_PTE_VALID;
+
+            for (size_t j = 0; j < NUM_LEVEL4_PTE; j++) {
+                boot_kern_l4pgdirs3[i][j] = cur_mem_paddr | 0x713;
+
+                cur_mem_paddr += PAGE_SIZE;
+            }
+        }
+        // Create a page table from 0xc0000000 to 0xe0000000
+        cur_mem_paddr = ALIGNDOWN((uint64_t)0xc0000000ULL, PAGE_SIZE);
+        for (size_t i = 0; i < NUM_LEVEL3_PDE; i++) {
+            boot_kern_l3pgdir4[i] = (uint64_t)boot_kern_l4pgdirs4[i] | L3_TYPE_TAB | L3_PTE_VALID;
+            if(cur_mem_paddr >= 0xe0000000){
+                break;
+            }
+            for (size_t j = 0; j < NUM_LEVEL4_PTE; j++) {
+                boot_kern_l4pgdirs4[i][j] = cur_mem_paddr | 0x713;
 
                 cur_mem_paddr += PAGE_SIZE;
             }

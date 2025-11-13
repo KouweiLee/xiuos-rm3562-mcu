@@ -33,7 +33,7 @@ Modification:
 #define NO_INT 0x80 // disable IRQ.
 #define DIS_INT 0xc0 // disable both IRQ and FIQ.
 
-#define MODE_STACK_SIZE 0x2000
+#define MODE_STACK_SIZE 0x4000
 
 //! @name SPSR fields
 //@{
@@ -73,7 +73,7 @@ Modification:
 
 #include "cortex_a55.h"
 
-#define NR_CPU 4 // maximum number of CPUs
+#define NR_CPU 8 // maximum number of CPUs
 
 static inline uintptr_t arch_curr_tick()
 {

@@ -68,7 +68,7 @@ int main(void)
             ERROR("Failed to create hardkernel owner and softkernel owner.\n");
             return -1;
         }
-        /* init hardkernel */
+        /* init hardkernel (print need after init hardkernel)*/
         if (!hardkernel_init(&hardkernel_tag)) {
             return -1;
         }
@@ -78,8 +78,7 @@ int main(void)
         spinlock_lock(&whole_kernel_lock);
         secondary_cpu_hardkernel_init(cpu_id, &hardkernel_tag);
         spinlock_unlock(&whole_kernel_lock);
-    }
-
+    } 
     spinlock_lock(&whole_kernel_lock);
     if (cpu_id == 0) {
         /* init softkernel */
@@ -112,7 +111,6 @@ int main(void)
     struct SchedulerRightGroup scheduler_rights;
     assert(AchieveResourceTag(&scheduler_rights.mmu_driver_tag, &hardkernel_tag, "mmu-ac-resource"));
     assert(AchieveResourceTag(&scheduler_rights.intr_driver_tag, &hardkernel_tag, "intr-ac-resource"));
-    LOG_PRINTF("CPU %d init done\n", cpu_id);
     spinlock_unlock(&whole_kernel_lock);
 
     // sync memory

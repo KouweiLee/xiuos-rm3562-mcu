@@ -17,7 +17,7 @@ cflags = -Wall -g -std=c11 -mtune=cortex-a72 -nostdlib -nodefaultlibs -fno-pic -
 board_specs = stub.o
 endif
 
-ifeq ($(BOARD), 3568)
+ifeq ($(BOARD), 3588)
 toolchain ?= aarch64-none-elf-
 user_ldflags = -N -Ttext 0
 cflags = -Wall -g -std=c11 -mtune=cortex-a55 -nostdlib -nodefaultlibs -fno-pic -static -fno-builtin -fno-strict-aliasing -Wall -ggdb -Wno-unused -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie  

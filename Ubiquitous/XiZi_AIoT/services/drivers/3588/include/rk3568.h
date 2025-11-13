@@ -1209,7 +1209,7 @@ struct INTMUX_REG {
 #define SPI2_BASE                      0xFE630000U /* SPI2 base address */
 #define SPI3_BASE                      0xFE640000U /* SPI3 base address */
 #define UART1_BASE                     0xFE650000U /* UART1 base address */
-#define UART2_BASE                     0xFE660000U /* UART2 base address */
+#define UART2_BASE                     0xfeb50000 /* UART2 base address */
 #define UART3_BASE                     0xFE670000U /* UART3 base address */
 #define UART4_BASE                     0xFE680000U /* UART4 base address */
 #define UART5_BASE                     0xFE690000U /* UART5 base address */
