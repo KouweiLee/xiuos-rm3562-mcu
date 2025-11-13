@@ -1,4 +1,8 @@
 # The following three platforms support compatiable instructions.
+
+ifneq ($(findstring $(BOARD), 3588), )
+SRC_DIR := armv8-a
+endif
 ifneq ($(findstring $(BOARD), 3568), )
 SRC_DIR := armv8-a
 endif

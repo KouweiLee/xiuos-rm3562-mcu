@@ -30,8 +30,8 @@ Modification:
 
 // clang-format off
 // interrupt controller GICv3
-#define GICV3               MMIO_P2V_WO(0xFD400000ULL)
-#define GICV3_REDIST        MMIO_P2V_WO(0xFD460000ULL)
+#define GICV3               MMIO_P2V_WO(0xfe600000ULL)
+#define GICV3_REDIST        MMIO_P2V_WO(0xfe680000ULL)
 
 #define D_CTLR 0x0
 #define D_TYPER 0x4

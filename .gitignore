@@ -7,3 +7,7 @@
 .cache/
 compile_commands.json
 .clangd
+Ubiquitous/XiZi_AIoT/services/app/bin/*
+Ubiquitous/XiZi_AIoT/build/*
+Ubiquitous/XiZi_AIoT/services/app/fs.img
+Ubiquitous/XiZi_AIoT/services/tools/mkfs/mkfs
