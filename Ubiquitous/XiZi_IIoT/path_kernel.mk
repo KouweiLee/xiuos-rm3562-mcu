@@ -860,6 +860,11 @@ KERNELPATHS += -I$(KERNEL_ROOT)/../../APP_Framework/lib/JerryScript/jerryscript/
 KERNELPATHS += -I$(KERNEL_ROOT)/../../APP_Framework/lib/JerryScript/jerryscript/jerry-math/include
 endif
 
+ifeq ($(CONFIG_LIB_USING_PIKAPYTHON), y)
+KERNELPATHS += -I$(KERNEL_ROOT)/../../APP_Framework/lib/pikapython/pikascript-core
+KERNELPATHS += -I$(KERNEL_ROOT)/../../APP_Framework/lib/pikapython/pikascript-api
+endif
+
 ifeq ($(CONFIG_FS_LWEXT4),y)
 KERNELPATHS += -I$(KERNEL_ROOT)/fs/lwext4/lwext4_submodule/blockdev/xiuos #
 KERNELPATHS += -I$(KERNEL_ROOT)/fs/lwext4/lwext4_submodule/include #

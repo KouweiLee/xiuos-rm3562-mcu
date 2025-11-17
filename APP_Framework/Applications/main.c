@@ -15,8 +15,17 @@
 // #include <user_api.h>
 #include <transform.h>
 
+#ifdef CONFIG_LIB_USING_PIKAPYTHON
+#include "../lib/pikapython/pikascript-api/pikaScript.h"
+#endif
+
 extern int FrameworkInit();
 extern void ApplicationOtaTaskInit(void);
+
+#ifdef CONFIG_LIB_USING_PIKAPYTHON
+/* PikaPython application interfaces */
+extern PikaObj* pikaPythonInit(void);
+#endif
 
 #ifdef OTA_BY_PLATFORM
 extern int OtaTask(void);
@@ -30,6 +39,17 @@ int main(void)
 {
     printf("\nHello, world!\n");
     FrameworkInit();
+    
+#ifdef CONFIG_LIB_USING_PIKAPYTHON
+    /* Initialize and run PikaPython */
+    printf("\n initializing PikaPython...\n");
+    PikaObj* pikaMain = pikaPythonInit();
+    if (pikaMain != NULL) {
+        printf("\n PikaPython test completed successfully!\n");
+    } else {
+        printf("\n PikaPython initialization failed!\n");
+    }
+#endif
 #ifdef APPLICATION_OTA
     ApplicationOtaTaskInit();
 #endif

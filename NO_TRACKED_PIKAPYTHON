@@ -1,0 +1,17 @@
+*   [33mbba569b5e[m[33m ([m[1;36mHEAD -> [m[1;32mprepare_for_master[m[33m)[m Merge branch 'master' of https://gitlink.org.cn/gzw1995228/xiuos-pikapython-dev into prepare_for_master
+[31m|[m[32m\[m  
+[31m|[m * [33me283790e9[m Delete README.md
+[31m|[m * [33maf8b2c129[m Initial commit
+* [33m1cfa5bea0[m Add PikaPython support to XiUOS
+*   [33m3b188e0a4[m[33m ([m[1;31morigin/prepare_for_master[m[33m)[m Add at32f437vmt7, which supports RS485/RS232 and Ethernet from Song_yanguang
+[33m|[m[34m\[m  
+[33m|[m * [33mba80e6f74[m Modify README.md
+[33m|[m * [33m670b8d651[m Modify README.md
+[33m|[m * [33m091cd966c[m Modify rs485 test
+[33m|[m * [33m6ba53ebc1[m Modify README.md
+[33m|[m * [33md70c12d31[m Add at32f437vmt7 README.md
+[33m|[m * [33m1467fb69e[m Modify rk485 test
+[33m|[m * [33m464918a99[m Delete unused files
+[33m|[m * [33m7dfea4f29[m Adapt ethernet to xiuos
+[33m|[m * [33m1c12a6ecb[m Add emac from at32 libraries and lwip
+[33m|[m * [33m3c6caaf1a[m Modify Console

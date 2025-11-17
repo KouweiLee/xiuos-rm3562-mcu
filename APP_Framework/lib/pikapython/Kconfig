@@ -1,0 +1,10 @@
+menu "lib using PikaPython"
+    menuconfig LIB_USING_PIKAPYTHON
+        bool "Enable support PikaPython."
+        default n
+        
+    if LIB_USING_PIKAPYTHON
+        # PikaPython configuration options
+        # Note: PikaPython uses its own internal configuration system
+    endif
+endmenu

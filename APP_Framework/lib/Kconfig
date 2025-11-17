@@ -17,4 +17,5 @@ menu "app lib"
     source "$APP_DIR/lib/mqtt/Kconfig"
     source "$APP_DIR/lib/JerryScript/Kconfig"
     source "$APP_DIR/lib/SQLite/Kconfig"
+    source "$APP_DIR/lib/pikapython/Kconfig"
 endmenu

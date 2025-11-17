@@ -11,6 +11,10 @@ export APPLFLAGS :=
 
 export DEFINES := -DHAVE_CCONFIG_H -DHC32F4A0 -DUSE_DDL_DRIVER -DHAVE_SIGINFO
 
+ifeq ($(CONFIG_LIB_USING_PIKAPYTHON), y)
+export DEFINES += -DCONFIG_LIB_USING_PIKAPYTHON
+endif
+
 ifeq ($(CONFIG_RESOURCES_LWIP), y)
 export LINK_LWIP := $(KERNEL_ROOT)/resources/ethernet/LwIP/liblwip.a
 endif
