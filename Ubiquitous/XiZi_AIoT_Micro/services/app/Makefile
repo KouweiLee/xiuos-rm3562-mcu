@@ -25,7 +25,7 @@ board_specs = stub.o
 endif
 ifeq ($(BOARD), jh7110)
 toolchain ?= riscv64-unknown-elf-
-user_ldflags = -N -Ttext 0 -T $(KERNEL_ROOT)/services/boards/jh7110/jh7110_user.lds
+user_ldflags = -N -Ttext 0 -T $(KERNEL_ROOT)/services/boards/VisionFive2/jh7110_user.lds
 CFLAGS = -Wall -Werror -O -fno-omit-frame-pointer -ggdb -gdwarf-2 -MD -mcmodel=medany -fno-common -nostdlib -fno-builtin-strncpy -fno-builtin-strncmp -fno-builtin-strlen -fno-builtin-memset -fno-builtin-memmove -fno-builtin-memcmp -fno-builtin-log -fno-builtin-bzero -fno-builtin-strchr -fno-builtin-exit -fno-builtin-malloc -fno-builtin-putc -fno-builtin-free -fno-builtin-memcpy -Wno-main -fno-builtin-printf -fno-builtin-fprintf -fno-builtin-vprintf -I. -fno-stack-protector -fno-pie -no-pie
 cflags = $(CFLAGS) -Wno-unused -fno-strict-aliasing
 board_specs = stub.o
