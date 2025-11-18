@@ -1,4 +1,4 @@
-# RK3568开发板适配指南
+# RK3588开发板适配指南
 
 ## 1. 开发环境搭建
 
@@ -20,55 +20,55 @@ sudo apt install build-essential pkg-config git
 sudo apt install gcc make libncurses5-dev openssl libssl-dev bison flex libelf-dev autoconf libtool gperf libc6-dev gcc-aarch64-none-elf
 ```
 
-#### RK3568编译配置
+#### RK3588编译配置
 
-在微内核系统中，RK3568的编译环境配置如下：
+在微内核系统中，RK3588的编译环境配置如下：
 
 - **交叉编译工具链**：`aarch64-none-elf-`
-- **架构特性**：针对Cortex-A55进行了优化
+- **架构特性**：针对Cortex-A76/A55进行了优化
 - **编译标志**：包含必要的ARM64架构支持和优化选项
 我们目前只针对如下版本（10.3.1）的aarch-none-elf-gcc进行编译测试，如下图所示
 ![gcc.png](img/gcc.png)
 
-
-
 ### 1.2 SDK获取方式
 
-RK3568完整的SDK开发资料可通过以下repo命令获取：
+RK3588完整的SDK开发资料可通过以下repo命令获取：
 
 ```bash
-repo init --repo-url ssh://git@www.rockchip.com.cn/repo/rk/tools/repo -u ssh://git@www.rockchip.com.cn/linux/rockchip/platform/manifests -b linux -m rk356x_linux5.10_release.xml
+repo init --repo-url ssh://git@www.rockchip.com.cn/repo/rk/tools/repo -u ssh://git@www.rockchip.com.cn/linux/rockchip/platform/manifests -b linux -m rk3588_linux5.10_release.xml
 ```
 
-请注意，获取SDK前需要先与瑞芯微工作人员协商获取SSH密钥授权，以确保能够正常访问代码仓库。获取密钥后，执行上述命令即可下载完整的RK3568 SDK开发资料。若未与瑞芯微协商，可通过 https://www.t-firefly.com/index.php/doc/download/107.html 获取下载，我们不保证开源版本的稳定性。
+请注意，获取SDK前需要先与瑞芯微工作人员协商获取SSH密钥授权，以确保能够正常访问代码仓库。获取密钥后，执行上述命令即可下载完整的RK3568 SDK开发资料。若未与瑞芯微协商，可通过 https://www.t-firefly.com/index.php/doc/download/239.html 获取下载，我们不保证开源版本的稳定性。
 
-## 2. RK3568处理器硬件架构
+## 2. RK3588处理器硬件架构
 
 ### 2.1 基本规格
 
-RK3568是瑞芯微(Rockchip)推出的一款高性能、低功耗的处理器，主要面向AIoT和工业控制领域。其主要特点包括：
+RK3588是瑞芯微(Rockchip)推出的一款高性能处理器，主要面向人工智能计算和边缘计算领域。其主要特点包括：
 
-- **CPU架构**：四核Cortex-A55处理器核心，主频最高可达2.0GHz
+- **CPU架构**：八核处理器，包含四核Cortex-A76（主频最高可达2.4GHz）和四核Cortex-A55（主频最高可达1.8GHz）
 - **指令集**：ARMv8-A 64位架构
 - **制程工艺**：采用先进的制程工艺，提供优秀的性能功耗比
-- **内存支持**：使用FLXC2004G-N1芯片，支持LPDDR4X内存，容量4GB，提供高速内存访问能力
-- **Flash支持**：使用MWE3032CH7芯片，支持eMMC存储，容量32GB
-- **应用场景**：适用于工业自动化控制、人机界面、中小型医疗分析器、电力等多种行业应用
+- **内存支持**：支持LPDDR4X内存，支持16GB内存容量，提供高速内存访问能力
+- **Flash支持**：使用eMMC芯片FEMDNN128G存储
+- **应用场景**：适用于边缘计算、AI加速、高端智能终端、数字标牌、工业控制等多种行业应用
 
 ### 2.2 主要外设接口
 
-RK3568处理器拥有丰富的外设接口，包括：
+RK3588处理器拥有丰富的外设接口，包括：
 
-- 双网口支持
+- 多网口支持（2.5G/1G）
 - 双CAN总线接口
-- 多路串口（最多支持5路）
+- 多路串口（最多支持8路）
+- PCIe 3.0接口
+- HDMI 2.1/DP接口
 - 其他丰富的工业控制接口
 
 ## 3. 微内核适配情况
 
 ### 3.1 已实现的适配功能
 
-目前，微内核与RK3568的适配已实现以下核心功能：
+目前，微内核与RK3588的适配已实现以下核心功能：
 
 #### 3.1.1 系统调用接口
 
@@ -78,7 +78,7 @@ RK3568处理器拥有丰富的外设接口，包括：
 
 #### 3.1.2 串口通信
 
-- 配置了UART基地址为`0xfeb50000`
+- 配置了UART基地址为`0xfe660000`
 - 实现了基本的串口初始化、发送(`putc`)和接收(`getc`)功能
 - 支持标准的NS16550串口驱动协议
 
@@ -89,10 +89,10 @@ RK3568处理器拥有丰富的外设接口，包括：
 
 ## 4. 目录结构
 
-`3568-board`目录包含以下主要文件：
+`3588-board`目录包含以下主要文件：
 
 ```
-3568-board/
+3588-board/
 ├── Makefile        # 编译配置文件
 ├── arch_usyscall.c # 系统调用实现
 ├── libserial.c     # 串口通信库
@@ -101,7 +101,7 @@ RK3568处理器拥有丰富的外设接口，包括：
 
 ### 4.1 文件功能说明
 
-- **Makefile**：定义了RK3568的编译选项、工具链配置和依赖关系
+- **Makefile**：定义了RK3588的编译选项、工具链配置和依赖关系
 - **arch_usyscall.c**：实现ARM64架构下的系统调用接口
 - **libserial.c**：实现基于NS16550协议的串口通信功能
 - **stub.c**：提供必要的存根函数支持
@@ -115,7 +115,7 @@ RK3568处理器拥有丰富的外设接口，包括：
 
 ### 5.2 UART配置
 
-- UART基地址：`0xfeb50000`
+- UART基地址：`0xfe660000`
 - 支持FIFO使能、收发缓冲区重置等功能
 - 默认配置为8位数据位、无校验、1位停止位(8N1)
 
@@ -123,33 +123,33 @@ RK3568处理器拥有丰富的外设接口，包括：
 
 ### 6.1 编译方法
 
-在编译微内核应用时，指定`BOARD=3568`参数即可使用RK3568的适配配置：
+在编译微内核应用时，指定`BOARD=3588`参数即可使用RK3588的适配配置：
 
 ```bash
-make BOARD=3568
+make BOARD=3588
 ```
 
 ### 6.2 烧录启动
 
 #### 6.2.1 准备启动镜像
 
-编译完成后，会在根目录的`build`文件夹下生成`RK3568.bin`文件。需要将此文件复制到TF卡中：
+编译完成后，会在根目录的`build`文件夹下生成`RK3588.bin`文件。需要将此文件复制到TF卡中：
 
 1. 将TF卡插入电脑
 2. 使用以下命令将编译好的二进制文件复制到TF卡根目录：
    ```bash
-   cp build/RK3568.bin /media/[用户名]/[TF卡挂载点]/XiZi-3568.bin
+   cp build/RK3588.bin /media/[用户名]/[TF卡挂载点]/XiZi-3588.bin
    ```
 3. 安全弹出TF卡
 
-
-
 #### 6.2.2 U-Boot启动配置
+
 为了确保系统能够正确启动，我们需要特定的u-boot代码.
 u-boot版本号：2017.09-23.510
-3568 u-boot获取方式：git clone https://gitlink.org.cn/xuos/uboot.git
+3588 u-boot获取方式：git clone https://gitlink.org.cn/xuos/3588_uboot.git
 下载u-boot后，替换掉SDK的原始u-boot。
 我们在gitlink开源的u-boot相比原来做了如下改动
+
 1. 在`u-boot/common/main.c`文件中的`main_loop`函数应如下所示：
    ```c
    void main_loop(void) 
@@ -168,15 +168,15 @@ u-boot版本号：2017.09-23.510
      	 s = bootdelay_process(); 
      	 if (cli_process_fdt(&s)) 
       	 cli_secure_boot_cmd(s); 
-     
-     	 s= "ext2load mmc 1 10000000 XiZi-3568.bin;go 10000000;"; 
+      
+     	 s= "ext2load mmc 1 10000000 XiZi-3588.bin;go 10000000;"; 
      	 autoboot_command(s); 
     
      	 cli_loop(); 
      	 panic("No CLI available"); 
     }
    ```
-   我们添加了s= "ext2load mmc 1 10000000 XiZi-3568.bin;go 10000000;"; 该修改确保CPU 0主核能够从TF卡加载并执行XiZi-3568.bin镜像。
+   我们添加了s= "ext2load mmc 1 10000000 XiZi-3588.bin;go 10000000;"; 该修改确保CPU 0主核能够从TF卡加载并执行XiZi-3588.bin镜像。
 
 2. 在`board_f.c`文件的`init_sequence_f[]`函数数组中，在`reserve_mmu`函数后面添加`go_xizi`函数：
    ```c
@@ -202,33 +202,33 @@ u-boot版本号：2017.09-23.510
    - 这确保了从核能够正确启动并执行XiZi微内核代码
    - 函数需要在board_f.c中定义，并且需要包含相关的头文件以支持func类型、get_cpuid()和enable_caches()函数
 
-4.  修改完u-boot后，即可编译SDK，在RK瑞芯微给的SDK根目录下执行以下步骤：
+4. 修改完u-boot后，即可编译SDK，在RK瑞芯微给的SDK根目录下执行以下步骤：
    ```bash
    ./build.sh uboot
    ./build.sh updateimg
    ```
-   选择配置文件`xiuos_rk3568_xihuitong_pro_defconfig`，即可完成编译。编译完成后，在`rockdev`目录下取出`update.img`，使用瑞芯微提供的开发工具根据官方文档进行烧录。
+   选择配置文件`xiuos_rk3588_xihuitong_pro_defconfig`，即可完成编译。编译完成后，在`rockdev`目录下取出`update.img`，使用瑞芯微提供的开发工具根据官方文档进行烧录。
+
 #### 6.2.3 硬件启动
 
-1. 将TF卡插入RK3568开发板的TF卡槽
+1. 将TF卡插入RK3588开发板的TF卡槽
 2. 给开发板上电，系统将从TF卡启动
-
 
 ## 7. hardkernel适配详情
 
-hardkernel是微内核系统中负责硬件抽象和底层驱动的核心组件，为RK3568提供了全面的硬件支持。
+hardkernel是微内核系统中负责硬件抽象和底层驱动的核心组件，为RK3588提供了全面的硬件支持。
 
 ### 7.1 适配目录结构
 
-hardkernel中与RK3568相关的适配文件主要分布在以下目录：
+hardkernel中与RK3588相关的适配文件主要分布在以下目录：
 
 ```
 hardkernel/
-├── arch/arm/armv8-a/cortex-a55/preboot_for_3568/    # 引导和初始化
-├── uart/arm/armv8-a/cortex-a55/uart_io_for_3568/   # UART驱动
-├── clock/arm/armv8-a/cortex-a55/3568/              # 时钟配置
-├── intr/arm/armv8-a/cortex-a55/3568/               # 中断处理
-└── mmu/arm/armv8-a/cortex-a55/3568/                # 内存管理单元配置
+├── arch/arm/armv8-a/cortex-a55/preboot_for_3588/    # 引导和初始化
+├── uart/arm/armv8-a/cortex-a55/uart_io_for_3588/   # UART驱动
+├── clock/arm/armv8-a/cortex-a55/3588/              # 时钟配置
+├── intr/arm/armv8-a/cortex-a55/3588/               # 中断处理
+└── mmu/arm/armv8-a/cortex-a55/3588/                # 内存管理单元配置
 ```
 
 ### 7.2 核心适配功能
@@ -247,7 +247,7 @@ hardkernel/
    - XiZi微内核接管CPU0控制权，开始初始化过程
    
    ```c
-   s= "ext2load mmc 1 10000000 XiZi-3568.bin;go 10000000;";
+   s= "ext2load mmc 1 10000000 XiZi-3588.bin;go 10000000;";
 	autoboot_command(s);
    ```
 
@@ -268,19 +268,17 @@ hardkernel/
 
 4. **多核运行状态**：
    - 完成初始化后，所有核心进入微内核调度管理，实现多核并行运行
-   - 通过这种方式，充分利用RK3568的四核处理能力
+   - 通过这种方式，充分利用RK3588的八核处理能力
 
-以下图片展示了RK3568 XiZi_AIoT成功启动四核的运行状态：
-
-
-![成功启动图](./img/RK3568SMP4.png)
-
-该图片直观地展示了RK3568处理器的四个Cortex-A55核心同时运行的状态，充分体现了微内核系统在多核心处理能力上的出色表现。成功的多核启动确保了系统能够充分利用处理器资源，为AIoT应用提供强大的计算支持和响应能力。
+   以下图片展示了RK3568 XiZi_AIoT成功启动四核的运行状态：
+   
+   
+   ![成功启动图](./img/RK3588SMP8.png)
 
 #### 7.2.2 UART驱动
 
 - 基于标准NS16550协议实现
-- UART基地址配置为`0xfeb50000`
+- UART基地址配置为`0xfe660000`
 - 实现了基本的串口初始化(`uartinit`)、发送(`uartputc`)和接收(`uartgetc`)功能
 - 支持波特率配置（默认配置为高速波特率）
 
@@ -345,7 +343,8 @@ softkernel通过以下方式与hardkernel进行交互：
 - 添加更多平台特定功能
 - 增强多核心调度能力
 - 完善内存管理和缓存优化
+- 充分利用RK3588的AI计算能力
 
 ---
 
-*本适配指南提供了RK3568处理器与微内核系统的完整适配信息，包括hardkernel和softkernel的详细适配情况，可根据实际应用需求进行进一步的开发和优化。*
+*本适配指南提供了RK3588处理器与微内核系统的完整适配信息，包括hardkernel和softkernel的详细适配情况，可根据实际应用需求进行进一步的开发和优化。*
