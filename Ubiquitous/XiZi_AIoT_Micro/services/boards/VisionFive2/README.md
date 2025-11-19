@@ -6,7 +6,7 @@
 
 ### 推荐使用：
 
-**操作系统：** ubuntu20.04 [https://ubuntu.com/download/desktop](https://ubuntu.com/download/desktop)
+**操作系统：** Ubuntu 20.04 [https://ubuntu.com/download/desktop](https://ubuntu.com/download/desktop)
 
 ### 依赖包安装：
 
@@ -87,7 +87,7 @@ XiZi-jh7110.bin
 
 ## 3. SD卡镜像
 
-SD卡格式需要格式为ext2格式。将SD卡插到Ubuntu电脑上（或Windows电脑的虚拟机中的Ubuntu系统），假设创建的节点是`/dev/sdb`，执行命令：
+SD 卡需格式化为 ext2 格式。将SD卡插到Ubuntu电脑上（或Windows电脑的虚拟机中的Ubuntu系统），假设创建的节点是`/dev/sdb`，执行命令：
 
 `mkfs.ext2 /dev/sdb`
 
@@ -111,7 +111,7 @@ Pin10 GPIO6 (UART RX)
 
 开发板通过type-c端口供电。
 
-实物图，如下。
+实物图如下。
 
 ![jh7110_board](img/jh7110_board.png)
 
@@ -148,7 +148,7 @@ uboot_xizi 主要修改：在Uboot的函数`main_loop`中，将原来启动Linux
 
 ![uboot_xizi_code](img/uboot_xizi_code.png)
 
-建议使用JH7110 Project仓库的uboot_xizi分支的最新代码。
+使用JH7110 Project仓库的uboot_xizi分支的最新代码。
 
 重新编译烧录Uboot。即，重新编译生成`u-boot-spl.bin.normal.out`和`visionfive2_fw_payload.img`，并烧录到Flash。
 
@@ -182,5 +182,5 @@ showTasks
 
 内存分布以及虚拟地址映射。
 
-![memory_map](img/memory_map.png)
+![zixi_memory](img/zixi_memory.png)
 
