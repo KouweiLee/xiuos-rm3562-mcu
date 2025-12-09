@@ -12,7 +12,7 @@
 	images {
 		mcu {
 			description  = "mcu";
-			data         = /incbin/("/home/kenable/code/xiuos_rk3562/xiuos/Ubiquitous/XiZi_IIoT_Macro/build/XiZi-rk3562-mcu.bin");
+			data         = /incbin/("/home/lgw/study/xiuos_dev/xiuos-rm3562-mcu/Ubiquitous/XiZi_IIoT_Macro/build/XiZi-rk3562-mcu.bin");
 			type         = "standalone";	// must be "standalone"
 			compression  = "none";
 			arch         = "arm";		// "arm64" or "arm", the same as U-Boot state

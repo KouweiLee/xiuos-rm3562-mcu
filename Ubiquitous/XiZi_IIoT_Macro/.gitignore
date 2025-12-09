@@ -10,3 +10,4 @@ XiUOS.*
 .selector
 .selector.old
 requirement.yaml
+compile.sh

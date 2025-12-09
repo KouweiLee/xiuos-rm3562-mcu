@@ -646,6 +646,7 @@ KERNELPATHS += \
 	-I$(BSP_ROOT)/include \
 	-I$(BSP_ROOT)/third_party_driver/include \
 	-I$(BSP_ROOT)/third_party_driver/hal/inc \
+	-I$(BSP_ROOT)/rpmsg-lite/lib/include \
 	-I$(KERNEL_ROOT)/include #
 endif
 
