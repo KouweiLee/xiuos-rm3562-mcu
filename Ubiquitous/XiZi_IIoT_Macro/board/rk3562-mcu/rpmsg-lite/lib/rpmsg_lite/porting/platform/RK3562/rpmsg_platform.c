@@ -114,7 +114,7 @@ static void rpmsg_mbox_isr_wrapper(int irqn, void *param)
     rpmsg_mbox_isr();
 }
 
-DECLARE_HW_IRQ(MBOX_BB_IRQn, rpmsg_mbox_isr_wrapper, NONE);
+DECLARE_HW_IRQ(MBOX_BB_IRQn + NVIC_PERIPH_IRQ_OFFSET, rpmsg_mbox_isr_wrapper, NONE);
 int32_t platform_init_interrupt(uint32_t vector_id, void *isr_data)
 {
 #ifdef RL_PLATFORM_USING_MBOX

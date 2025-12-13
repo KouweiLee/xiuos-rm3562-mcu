@@ -45,7 +45,8 @@ int32_t ept_cb(void *data, uint32_t len, uint32_t src, void *priv) {
 void RPMsgTask_Entry(void *param)
 {
     KPrintf("M7 rpmsg task begins!\n");
-    my_rpmsg = rpmsg_lite_remote_init((void *)0x00100000, 0, RL_NO_FLAGS);
+    // link_id is not used in code
+    my_rpmsg = rpmsg_lite_remote_init((void *)0x00100000, 4, RL_NO_FLAGS);
     while (0 == rpmsg_lite_is_link_up(my_rpmsg)) {   }
     KPrintf("Link is up!\n");
     KPrintf("nameservice bind begin\n");

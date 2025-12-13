@@ -33,7 +33,7 @@
 
 #include "rpmsg_lite.h"
 #include "rpmsg_platform.h"
-
+#include "xizi.h"
 /* rpmsg_std_hdr contains a reserved field,
  * this implementation of RPMSG uses this reserved
  * field to hold the idx and totlen of the buffer
@@ -217,6 +217,7 @@ static void rpmsg_lite_rx_callback(struct virtqueue *vq)
  */
 static void rpmsg_lite_tx_callback(struct virtqueue *vq)
 {
+    KPrintf("rpmsg_lite_tx_callback\n");
     struct rpmsg_lite_instance *rpmsg_lite_dev = (struct rpmsg_lite_instance *)vq->priv;
 
     RL_ASSERT(rpmsg_lite_dev != RL_NULL);
