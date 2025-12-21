@@ -49,6 +49,35 @@ void SysTickConfiguration(void)
 }
 
 
+extern void INTMUX_Dispatch(uint32_t irqOut);
+void NVIC_INTMUX_Handler(int irqn, void *arg)
+{
+    uint32_t irqOut = irqn - INTMUX_OUT0_IRQn - NVIC_USER_IRQ_OFFSET;
+    INTMUX_Dispatch(irqOut);
+}
+
+
+void NVIC_INTMUX_Configuration(void)
+{
+#ifdef INTMUX_IRQ_OUT0
+    HAL_NVIC_EnableIRQ(INTMUX_OUT0_IRQn);
+    isrManager.done->registerIrq(INTMUX_OUT0_IRQn+NVIC_USER_IRQ_OFFSET, NVIC_INTMUX_Handler, NULL);
+#endif
+#ifdef INTMUX_IRQ_OUT1
+    HAL_NVIC_EnableIRQ(INTMUX_OUT1_IRQn);
+    isrManager.done->registerIrq(INTMUX_OUT1_IRQn+NVIC_USER_IRQ_OFFSET, NVIC_INTMUX_Handler, NULL);
+#endif
+#ifdef INTMUX_IRQ_OUT2  
+    HAL_NVIC_EnableIRQ(INTMUX_OUT2_IRQn);
+    isrManager.done->registerIrq(INTMUX_OUT2_IRQn+NVIC_USER_IRQ_OFFSET, NVIC_INTMUX_Handler, NULL);
+#endif
+#ifdef INTMUX_IRQ_OUT3  
+    HAL_NVIC_EnableIRQ(INTMUX_OUT3_IRQn);
+    isrManager.done->registerIrq(INTMUX_OUT3_IRQn+NVIC_USER_IRQ_OFFSET, NVIC_INTMUX_Handler, NULL);
+#endif
+}
+
+
 void SysTick_Handler(int irqn, void *arg)
 {
     TickAndTaskTimesliceUpdate();
@@ -76,19 +105,8 @@ void InitBoardHardware()
     /* hal bsp init */
     BSP_Init();
 
-    HAL_IOMUX_Uart9M1Config();
-    struct HAL_UART_CONFIG hal_uart_config = {
-        .baudRate = UART_BR_1500000,
-        .dataBit = UART_DATA_8B,
-        .stopBit = UART_ONE_STOPBIT,
-        .parity = UART_PARITY_DISABLE,
-    };
+    NVIC_INTMUX_Configuration();
 
-    HAL_UART_Init(&g_uart9Dev, &hal_uart_config);
-
-
-
-    // system_clock_config() is called from SystemInit (void)
     SysTickConfiguration();
 
 #ifdef BSP_USING_UART

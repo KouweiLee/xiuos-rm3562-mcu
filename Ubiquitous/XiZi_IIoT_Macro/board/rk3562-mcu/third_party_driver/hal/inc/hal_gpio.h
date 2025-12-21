@@ -40,8 +40,8 @@
 /***************************** Structure Definition **************************/
 /** GPIO pin level definition */
 typedef enum {
-    GPIO_LOW,
-    GPIO_HIGH
+    HAL_GPIO_LOW,
+    HAL_GPIO_HIGH
 } eGPIO_pinLevel;
 
 /** GPIO pin direction definition */
@@ -94,10 +94,10 @@ typedef enum {
 } eGPIO_VirtualModel;
 
 #define IS_GPIO_PIN_DIR(ACTION)   (((ACTION) == GPIO_IN) || ((ACTION) == GPIO_OUT))
-#define IS_GPIO_PIN_LEVEL(ACTION) (((ACTION) == GPIO_LOW) || ((ACTION) == GPIO_HIGH))
+#define IS_GPIO_PIN_LEVEL(ACTION) (((ACTION) == HAL_GPIO_LOW) || ((ACTION) == HAL_GPIO_HIGH))
 
 #define IS_GPIO_PIN(PIN)      ((PIN) != 0x00000000U)
-#define IS_GPIO_HIGH_PIN(PIN) IS_GPIO_PIN(((PIN) & 0xFFFF0000U))
+#define IS_HAL_GPIO_HIGH_PIN(PIN) IS_GPIO_PIN(((PIN) & 0xFFFF0000U))
 
 #define IS_GET_GPIO_PIN(PIN) (((PIN) == GPIO_PIN_A0) || \
                               ((PIN) == GPIO_PIN_A1) || \

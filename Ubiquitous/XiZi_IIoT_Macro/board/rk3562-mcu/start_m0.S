@@ -77,7 +77,6 @@ rk3562_entry:
 
                 ldr      r3, =_sp
                 msr      msp, r3
-                bl       SystemInit
                 bl       Reset_Handler
 
                 .fnend

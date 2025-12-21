@@ -122,6 +122,9 @@ __Vectors:
   .word  IsrEntry
   .word  IsrEntry
   .word  IsrEntry
+  
+  /* Interrupts */
+  .space   (64 * 4)                          /* Interrupts 0 .. 63 are left out */
 __Vectors_End:
   .equ     __Vectors_Size, __Vectors_End - __Vectors
   .size    __Vectors, . - __Vectors

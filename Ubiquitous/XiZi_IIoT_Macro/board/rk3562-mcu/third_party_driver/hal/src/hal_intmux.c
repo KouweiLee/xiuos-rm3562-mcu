@@ -416,7 +416,7 @@ HAL_Status HAL_INTMUX_DisableIRQ(uint32_t irq)
 }
 
 #ifdef HAL_INTMUX_CUSTOM_DISTRIBUTION_FEATURE_ENABLED
-static void INTMUX_Dispatch(uint32_t irqOut)
+void INTMUX_Dispatch(uint32_t irqOut)
 {
     uint32_t irqn, groupFlag;
     int i, j;
@@ -484,7 +484,7 @@ static void INTMUX_Dispatch(uint32_t irqOut)
     }
 }
 #else
-static void INTMUX_Dispatch(uint32_t irqOut)
+void INTMUX_Dispatch(uint32_t irqOut)
 {
     uint32_t irqn, groupFlag;
     int i, j;

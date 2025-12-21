@@ -82,7 +82,7 @@ void InstallConsole(const char *bus_name, const char *drv_name, const char *dev_
         serial_dev_param->serial_set_mode = 0;
         serial_dev_param->serial_stream_mode = SIGN_OPER_STREAM;
         BusDevOpen(console);
-        _console = console;KPrintf("InstallConsole bus %s drv %s dev %s\n", bus_name, drv_name, dev_name);
+        _console = console;
     } else {
         console = _console;
     }

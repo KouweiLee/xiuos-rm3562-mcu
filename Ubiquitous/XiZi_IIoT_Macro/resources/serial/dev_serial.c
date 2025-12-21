@@ -415,14 +415,24 @@ static inline int SerialDevPollingRead(struct SerialHardwareDevice *serial_dev, 
     uint8 *read_data = (uint8 *)read_param->buffer;
     x_size_t read_length = read_param->size;
 
-    uint8 get_char;
+    int get_char;
 
-    get_char = hwdev_done->get_char(serial_dev);
+    while (read_length)
+    {
+        get_char = hwdev_done->get_char(serial_dev);
+        if (-ERROR == get_char) {
+            break;
+        }
+        
+        *read_data = (char)get_char;
+        read_data++; 
+        read_length--;
+        read_param->read_length++;
 
-    *read_data = get_char;
-    read_data++; 
-    read_length--;
-    read_param->read_length++;
+        if ('\n' == get_char) {
+            break;
+        }
+    }
 
     return EOK;
 }

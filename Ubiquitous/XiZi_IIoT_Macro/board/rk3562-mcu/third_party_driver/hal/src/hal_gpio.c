@@ -59,7 +59,7 @@
 static void GPIO_SetEOI(struct GPIO_REG *pGPIO, ePINCTRL_GPIO_PINS pin)
 {
 #if (GPIO_VER_ID >= 0x01000C2BU)
-    if (IS_GPIO_HIGH_PIN(pin)) {
+    if (IS_HAL_GPIO_HIGH_PIN(pin)) {
         pin &= 0xFFFF0000;
         pGPIO->PORT_EOI_H = pin | (pin >> 16);
     } else {
@@ -162,7 +162,7 @@ HAL_Status HAL_GPIO_SetIntType(struct GPIO_REG *pGPIO, ePINCTRL_GPIO_PINS pin, e
     }
 
 #if (GPIO_VER_ID >= 0x01000C2BU)
-    if (IS_GPIO_HIGH_PIN(pin)) {
+    if (IS_HAL_GPIO_HIGH_PIN(pin)) {
         pin &= 0xFFFF0000;
         pGPIO->INT_TYPE_H = (type) ? (pin | (pin >> 16)) : (pin);
         pGPIO->INT_POLARITY_H = (plar) ? (pin | (pin >> 16)) : (pin);
@@ -196,7 +196,7 @@ HAL_Status HAL_GPIO_SetIntType(struct GPIO_REG *pGPIO, ePINCTRL_GPIO_PINS pin, e
 HAL_Status HAL_GPIO_SetPinDirection(struct GPIO_REG *pGPIO, ePINCTRL_GPIO_PINS pin, eGPIO_pinDirection direction)
 {
 #if (GPIO_VER_ID >= 0x01000C2BU)
-    if (IS_GPIO_HIGH_PIN(pin)) {
+    if (IS_HAL_GPIO_HIGH_PIN(pin)) {
         pin &= 0xFFFF0000;
         pGPIO->SWPORT_DDR_H = (direction == GPIO_OUT) ? (pin | (pin >> 16)) : (pin);
     } else {
@@ -252,7 +252,7 @@ eGPIO_pinDirection HAL_GPIO_GetPinDirection(struct GPIO_REG *pGPIO, ePINCTRL_GPI
     uint32_t value;
 
 #if (GPIO_VER_ID >= 0x01000C2BU)
-    value = IS_GPIO_HIGH_PIN(pin) ? (pGPIO->SWPORT_DDR_H & (pin >> 16)) : (pGPIO->SWPORT_DDR_L & pin);
+    value = IS_HAL_GPIO_HIGH_PIN(pin) ? (pGPIO->SWPORT_DDR_H & (pin >> 16)) : (pGPIO->SWPORT_DDR_L & pin);
 #else
     value = pGPIO->SWPORTA_DDR & pin;
 #endif
@@ -276,15 +276,15 @@ eGPIO_pinDirection HAL_GPIO_GetPinDirection(struct GPIO_REG *pGPIO, ePINCTRL_GPI
 HAL_Status HAL_GPIO_SetPinLevel(struct GPIO_REG *pGPIO, ePINCTRL_GPIO_PINS pin, eGPIO_pinLevel level)
 {
 #if (GPIO_VER_ID >= 0x01000C2BU)
-    if (IS_GPIO_HIGH_PIN(pin)) {
+    if (IS_HAL_GPIO_HIGH_PIN(pin)) {
         pin &= 0xFFFF0000;
-        pGPIO->SWPORT_DR_H = (level == GPIO_HIGH) ? (pin | (pin >> 16)) : (pin);
+        pGPIO->SWPORT_DR_H = (level == HAL_GPIO_HIGH) ? (pin | (pin >> 16)) : (pin);
     } else {
         pin &= 0x0000FFFF;
-        pGPIO->SWPORT_DR_L = (level == GPIO_HIGH) ? (pin | (pin << 16)) : (pin << 16);
+        pGPIO->SWPORT_DR_L = (level == HAL_GPIO_HIGH) ? (pin | (pin << 16)) : (pin << 16);
     }
 #else
-    if (level == GPIO_HIGH) {
+    if (level == HAL_GPIO_HIGH) {
         pGPIO->SWPORTA_DR |= pin;
     } else {
         pGPIO->SWPORTA_DR &= ~pin;
@@ -341,15 +341,15 @@ eGPIO_pinLevel HAL_GPIO_GetPinData(struct GPIO_REG *pGPIO, ePINCTRL_GPIO_PINS pi
     uint32_t value;
 
 #if (GPIO_VER_ID >= 0x01000C2BU)
-    value = IS_GPIO_HIGH_PIN(pin) ? (pGPIO->SWPORT_DR_H & (pin >> 16)) : (pGPIO->SWPORT_DR_L & pin);
+    value = IS_HAL_GPIO_HIGH_PIN(pin) ? (pGPIO->SWPORT_DR_H & (pin >> 16)) : (pGPIO->SWPORT_DR_L & pin);
 #else
     value = pGPIO->SWPORTA_DR & pin;
 #endif
 
-    if (value != (uint32_t)GPIO_LOW) {
-        level = GPIO_HIGH;
+    if (value != (uint32_t)HAL_GPIO_LOW) {
+        level = HAL_GPIO_HIGH;
     } else {
-        level = GPIO_LOW;
+        level = HAL_GPIO_LOW;
     }
 
     return level;
@@ -371,7 +371,7 @@ eGPIO_pinLevel HAL_GPIO_GetPinLevel(struct GPIO_REG *pGPIO, ePINCTRL_GPIO_PINS p
     value = (pGPIO->EXT_PORTA & pin);
 #endif
 
-    return (value == (uint32_t)GPIO_LOW) ? GPIO_LOW : GPIO_HIGH;
+    return (value == (uint32_t)HAL_GPIO_LOW) ? HAL_GPIO_LOW : HAL_GPIO_HIGH;
 }
 
 /**
@@ -405,7 +405,7 @@ uint32_t HAL_GPIO_GetBankLevel(struct GPIO_REG *pGPIO)
 void HAL_GPIO_EnableIRQ(struct GPIO_REG *pGPIO, ePINCTRL_GPIO_PINS pin)
 {
 #if (GPIO_VER_ID >= 0x01000C2BU)
-    if (IS_GPIO_HIGH_PIN(pin)) {
+    if (IS_HAL_GPIO_HIGH_PIN(pin)) {
         pin &= 0xFFFF0000;
 #ifndef HAL_GPIO_IRQ_GROUP_MODULE_ENABLED
         pGPIO->INT_MASK_H = pin;
@@ -434,7 +434,7 @@ void HAL_GPIO_EnableIRQ(struct GPIO_REG *pGPIO, ePINCTRL_GPIO_PINS pin)
 void HAL_GPIO_DisableIRQ(struct GPIO_REG *pGPIO, ePINCTRL_GPIO_PINS pin)
 {
 #if (GPIO_VER_ID >= 0x01000C2BU)
-    if (IS_GPIO_HIGH_PIN(pin)) {
+    if (IS_HAL_GPIO_HIGH_PIN(pin)) {
         pin &= 0xFFFF0000;
         pGPIO->INT_EN_H = pin;
 #ifndef HAL_GPIO_IRQ_GROUP_MODULE_ENABLED
