@@ -101,6 +101,12 @@ static int spitest_loopback(void)
         printf("Preparing to transmit data via SPI...\n");
         HAL_SPI_FlushFifo(&g_spi_handle);
 
+        g_spi_handle.pTxBuffer = tx_buffer;
+        g_spi_handle.pTxBufferEnd = tx_buffer + TRANSFER_SIZE;
+        g_spi_handle.pRxBuffer = rx_buffer;
+        g_spi_handle.pRxBufferEnd = rx_buffer + TRANSFER_SIZE;
+        g_spi_handle.len = TRANSFER_SIZE;
+
         printf("Transmitting data via SPI...\n");
         status = HAL_SPI_PioTransfer(&g_spi_handle);
         if (status != HAL_OK) {
