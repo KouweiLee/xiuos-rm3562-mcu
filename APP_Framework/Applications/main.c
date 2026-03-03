@@ -159,7 +159,7 @@ int main(void)
     webserver();
 #endif
 
-    RPMsgTask_Entry(NULL);
+    // RPMsgTask_Entry(NULL);
     return 0;
 }
 // int cppmain(void);

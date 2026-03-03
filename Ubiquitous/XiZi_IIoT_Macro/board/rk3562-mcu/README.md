@@ -24,7 +24,7 @@ $ sudo apt install build-essential pkg-config  git
 $ sudo apt install gcc make libncurses5-dev openssl libssl-dev bison flex libelf-dev autoconf libtool gperf libc6-dev
 ```
 
-**XiUOS操作系统源码下载：** XiUOS [https://www.gitlink.org.cn/xuos/xiuos](https://www.gitlink.org.cn/xuos/xiuos)
+**XiUOS操作系统源码下载：** XiUOS
 
 新建一个空文件夹并进入文件夹中，并下载源码，具体命令如下：
 
@@ -93,4 +93,7 @@ cd board/rk3562-mcu && ./mkimage.sh
 
 ### 3.2 运行结果
 
-将amp.img文件烧录到RK3562开发板上的M核即可。
+将amp.img文件烧录到RK3562开发板上的M核即可。XiuOS启动后，会跳转到APP_Framework/Applications/main.c文件下的main函数，修改main函数中的逻辑即可启动不同的应用。
+
+注意：本例程XiuOS在M核上会使用UART9，记得根据Rockchip官方文档配置Linux侧的设备树，避免Linux启动后干扰M核的输出。
+
